@@ -3,7 +3,7 @@ name: Deploy to Environments
 on:
   push:
     branches:
-      - main
+      - test-2
 
 jobs:
   deploy:
