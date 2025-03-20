@@ -1,0 +1,17 @@
+name: Deploy to Environments
+
+on:
+  push:
+    branches:
+      - test-2
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: testkeerthana
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Deploy to production
+        run: echo "Deploying to production!"
