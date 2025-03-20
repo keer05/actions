@@ -1,7 +1,7 @@
 name: Docker CI with Caching
 
 on:
-  workflow_dispatcher:
+  workflow_dispatch:
 
 jobs:
   build:
