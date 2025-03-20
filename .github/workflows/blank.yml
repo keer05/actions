@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - test-2
+    paths:
+      - 'docker/**/*'
 
 jobs:
   build:
