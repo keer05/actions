@@ -18,19 +18,25 @@ jobs:
       - name: Cache Docker layers
         uses: actions/cache@v4
         with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-docker-${{ hashFiles('**/docker/Dockerfile') }}  # Updated path to Dockerfile
+          path: .buildx-cache
+          key: ${{ runner.os }}-docker-${{ hashFiles('**/docker/Dockerfile') }}
           restore-keys: |
             ${{ runner.os }}-docker-
 
       - name: Build Docker image
         run: |
-          docker buildx build --file docker/Dockerfile --tag testkeer .  # Updated path to Dockerfile
+          docker buildx build --file docker/Dockerfile --tag testkeer .  
+          docker images
 
   tag:
-    needs: build 
+    needs: build
     runs-on: ubuntu-latest
     steps:
+      - name: Set up Docker
+        uses: docker/setup-docker@v2
+
       - name: Docker Tag Image
         run: |
+          docker images  
           docker tag testkeer newdockerimg:v100
+          docker images
