@@ -1,0 +1,37 @@
+name: Docker CI with Caching
+
+on:
+  workflow_dispatcher:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Cache Docker layers
+        uses: actions/cache@v2
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-docker-${{ hashFiles('**/Dockerfile') }}
+          restore-keys: |
+            ${{ runner.os }}-docker-
+
+      - name: Build Docker image
+        run: |
+          docker buildx build --file Dockerfile --tag testkeer .
+
+  tag:
+    needs: build 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Docker
+        uses: docker/setup-docker@v2
+
+      - name: Docker Tag Image
+        run: |
+          docker tag testkeer newdockerimg:v100          
