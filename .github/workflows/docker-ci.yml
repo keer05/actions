@@ -19,13 +19,13 @@ jobs:
         uses: actions/cache@v2
         with:
           path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-docker-${{ hashFiles('**/Dockerfile') }}
+          key: ${{ runner.os }}-docker-${{ hashFiles('**/docker/Dockerfile') }}  # Updated path to Dockerfile
           restore-keys: |
             ${{ runner.os }}-docker-
 
       - name: Build Docker image
         run: |
-          docker buildx build --file Dockerfile --tag testkeer .
+          docker buildx build --file docker/Dockerfile --tag testkeer .  # Updated path to Dockerfile
 
   tag:
     needs: build 
@@ -36,4 +36,4 @@ jobs:
 
       - name: Docker Tag Image
         run: |
-          docker tag testkeer newdockerimg:v100          
+          docker tag testkeer newdockerimg:v100
